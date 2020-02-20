@@ -2,6 +2,11 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
+def display_welcome
+  prompt("Welcome to the mortgage / auto loan calculator!")
+  prompt("-----------------------------------------------")
+end
+
 def integer?(input)
   input.to_i().to_s() == input
 end
@@ -40,8 +45,11 @@ def loan_duration_input
   prompt("What is the duration of the loan, in years?")
   loop do
     duration_in_years = Kernel.gets().chomp()
-    return duration_in_years if valid_number?(duration_in_years)
-    prompt("Enter a valid length of time for loan.")
+    if duration_in_years.to_i >= 0 && integer?(duration_in_years)
+      return duration_in_years
+    else
+      prompt("Enter a valid length of time for loan.")
+    end
   end
 end
 
@@ -55,25 +63,44 @@ def payment_retrieval(loan_amount, monthly_interest, duration)
   end
 end
 
+def display_monthly_payment(monthly_payment, interest_rate, duration)
+  prompt("Your monthly payment is $#{format('%02.2f', monthly_payment)}
+  with an interest rate of #{interest_rate}% at #{duration} months")
+end
+
 def another_calculation?
   answer = ''
   prompt("Would you like to do another calculation? (Y or N)")
   loop do
     answer = Kernel.gets().chomp().downcase()
-    break if answer == 'y' || answer == 'n'
+    break if valid_new_calc_answer(answer)
     prompt("Invalid input. Answer Y or N.")
   end
   answer == 'y'
 end
 
+def valid_new_calc_answer(answer)
+  answer == 'y' || answer == 'n'
+end
+
+def display_goodbye
+  prompt("Thank you for using Mortgage Calculator!")
+  prompt("Goodbye!")
+end
+
 clear
 
-prompt("Welcome to the mortgage / auto loan calculator!")
-prompt("-----------------------------------------------")
+display_welcome
 
 loop do
   loan_amount = loan_amount_input
+
+  clear
+
   interest_rate = interest_rate_input
+
+  clear
+
   duration_in_years = loan_duration_input
 
   clear
@@ -83,14 +110,11 @@ loop do
   duration = duration_in_years.to_i() * 12
 
   monthly_payment = payment_retrieval(loan_amount, monthly_interest, duration)
-
-  prompt("Your monthly payment is $#{format('%02.2f', monthly_payment)}
-  with an interest rate of #{interest_rate}% at #{duration} months")
+  display_monthly_payment(monthly_payment, interest_rate, duration)
 
   break unless another_calculation?
 end
 
 clear
 
-prompt("Thank you for using Mortgage Calculator!")
-prompt("Goodbye!")
+display_goodbye
