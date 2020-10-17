@@ -1,5 +1,15 @@
 VALID_CHOICES = %w(r p sc sp l)
 
+=begin
+CHOICES = {
+  'r' => {name: 'rock', beats: ['scissors', 'lizard'] },
+  'p' => {name: 'paper', beats: ['rock', 'spock'] },
+  'sc' => { name: 'scissors', beats: ['paper', 'lizard'] },
+  'sp' => { name: 'spock', beats: ['rock', 'lizard'] },
+  'l' => { name: 'lizard', beats: ['spock', 'paper'] }
+}
+=end
+
 PLAY_AGAIN_RESPONSES = %w(y yes n no)
 
 def prompt(message)
@@ -9,6 +19,12 @@ end
 def clear
   system('clear') || system('cls')
 end
+
+=begin
+def win?(first, second)
+  first[:beats].include?(second[:name])
+end
+=end
 
 def win?(first, second)
   (first == 'r' && (second == 'sc' || second == 'l')) ||

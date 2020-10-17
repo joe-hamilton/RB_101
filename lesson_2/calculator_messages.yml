@@ -1,14 +1,15 @@
 en:
   welcome: "Welcome to Calculator!  Enter your name: "
   valid_name: "Make sure to enter a valid name."
+  number_1: "Please enter the first number."
+  number_2: "Please enter the second number."
+  error: "Invalid number. Please try again with a valid number."
+  error_2: "Must choose 1,2,3 or 4. Try again."
+  repeat: "Do you want to perform another calculation? (Enter Y if you do)"
+  goodbye: "Thank you for using the calculator. Goodbye!"
 
 es:
   welcome: "Bienvenido a la calculadora! Entre su nombre:"
   valid_name: "Asegúrese de entrar un nombre válido."
 
 
-error: "Invalid number. Please try again with a valid number."
-error_2: "Must choose 1,2,3 or 4. Try again."
-number_1: "Please enter the first number."
-number_2: "Please enter the second number."
-repeat: "Do you want to perform another calculation? (Enter Y if you do)"
