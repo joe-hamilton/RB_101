@@ -6,15 +6,11 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
                 [[1, 5, 9], [3, 5, 7]] # diagonals
 
-PLAYER = 'P'
-COMPUTER = 'C'
-RANDOM = 'R'
 STARTING_OPTIONS = {
-  PLAYER => 'player',
-  COMPUTER => 'computer',
-  RANDOM => 'random'
+  "p" => 'player',
+  "c" => 'computer',
+  "r" => 'random'
 }
-
 # METHODS
 def prompt(msg)
   puts "=> #{msg}"
@@ -26,7 +22,7 @@ def welcome_message
   rules = <<-FOO
   Rules:
   1. First one to occupy three consecutive squares wins the match
-  2. First one to 3 wins is the GRAND winner!
+  2. First one to 3 wins the game
   FOO
   prompt(rules)
   puts "-----------------------------------------------------------------"
@@ -55,15 +51,15 @@ def display_board(brd)
   puts "* Player is #{PLAYER_MARKER} : Computer is #{COMPUTER_MARKER} *"
   puts ""
   puts "     |     |     "
-  puts " #{brd[1]}   | #{brd[2]}   |  #{brd[3]}   "
+  puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}   "
   puts "     |     |     "
   puts "-----+-----+-----"
   puts "     |     |     "
-  puts " #{brd[4]}   |  #{brd[5]}  |  #{brd[6]}  "
+  puts "  #{brd[4]}  |  #{brd[5]}  |  #{brd[6]}  "
   puts "     |     |     "
   puts "-----+-----+-----"
   puts "     |     |     "
-  puts " #{brd[7]}   |  #{brd[8]}  |  #{brd[9]}   "
+  puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}   "
   puts "     |     |     "
   puts ""
 end
@@ -78,89 +74,83 @@ end
 
 def choose_starter
   starter = ''
+
   loop do
-    prompt("Who would you like to go first?")
-    options = <<-FOO
-    '#{PLAYER}' for #{STARTING_OPTIONS[PLAYER]},
-       '#{COMPUTER}' for #{STARTING_OPTIONS[COMPUTER]},
-       '#{RANDOM}' for #{STARTING_OPTIONS[RANDOM]}.
-    FOO
-    prompt(options)
-    starter = gets.chomp.upcase
+    prompt("Who should go first: (p)layer or (c)omputer?")
+    starter = gets.chomp.downcase
 
-    break if [PLAYER, COMPUTER, RANDOM].include?(starter)
-    prompt("Please enter a valid input")
+    break if ['p', 'player', 'c', 'computer'].include?(starter)
+    prompt("Please enter a valid input: 'p' for player, 'c' for computer")
   end
-
-  starter = [PLAYER, COMPUTER, RANDOM].sample if starter == RANDOM
-  starter
+  current_player = starter.start_with?('p') ? 'p' : 'c'
+  current_player
 end
 
-def empty_squares(brd)
+def empty_squares(brd) # [1, 2, 3, 4, 5, 6, 7, 8, 9]
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
 def player_places_piece!(brd)
-  plyr_choice = ''
+  choice = ''
 
   loop do
     prompt("Choose a square to place a piece: #{joinor(empty_squares(brd))}")
-    plyr_choice = gets.chomp
+    choice = gets.chomp
 
-    if empty_squares(brd).include?(plyr_choice.to_i) && integer?(plyr_choice)
-      break
-    end
+    break if empty_squares(brd).include?(choice.to_i) && integer?(choice)
     prompt("Sorry, that's not a valid choice.")
   end
-  brd[plyr_choice.to_i] = PLAYER_MARKER
-end
-
-def computer_plays_offense(choice, brd)
-  WINNING_LINES.each do |line|
-    choice = find_at_risk_square(brd, line, COMPUTER_MARKER)
-    break if choice
-  end
-  choice
-end
-
-def computer_plays_defense(choice, brd)
-  WINNING_LINES.each do |line|
-    choice = find_at_risk_square(brd, line, PLAYER_MARKER)
-    break if choice
-  end
-  choice
-end
-
-def computer_places_piece!(brd)
-  comp_choice = nil
-
-  comp_choice = computer_plays_offense(comp_choice, brd) if !comp_choice
-  comp_choice = computer_plays_defense(comp_choice, brd) if !comp_choice
-  comp_choice = 5 if empty_squares(brd).include?(5)
-  comp_choice = empty_squares(brd).sample if !comp_choice
-  brd[comp_choice] = COMPUTER_MARKER
+  brd[choice.to_i] = PLAYER_MARKER
 end
 
 def place_piece_on_board(brd, player)
-  if player == PLAYER
+  if player == "p"
     player_places_piece!(brd)
-  elsif player == COMPUTER
+  elsif player == "c"
     computer_places_piece!(brd)
   end
 end
 
 def next_player(player)
-  if player == PLAYER
-    COMPUTER
+  if player == "p"
+    "c"
   else
-    PLAYER
+    "p"
   end
 end
 
-def find_at_risk_square(brd, line, marker)
-  if brd.values_at(*line).count(marker) == 2
-    brd.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
+def find_at_risk_square(brd, marker)
+  choice = nil
+
+  WINNING_LINES.each do |line|
+    if brd.values_at(*line).count(marker) == 2
+      winning_square = empty_squares(brd).select do |n|
+        line.include?(n)
+      end
+      if winning_square.length > 0
+        choice = winning_square[0]
+      end
+    end
   end
+  choice
+end
+
+def computer_places_piece!(brd)
+  choice = nil
+
+  loop do
+    choice = find_at_risk_square(brd, COMPUTER_MARKER)
+    break if choice
+    choice = find_at_risk_square(brd, PLAYER_MARKER)
+    break if choice
+    choice = if empty_squares(brd).include?(5)
+               5
+             else
+               empty_squares(brd).sample
+             end
+    break
+  end
+  brd[choice] = COMPUTER_MARKER
 end
 
 def winner(brd)
@@ -191,9 +181,9 @@ def display_scoreboard(score)
 end
 
 def update_score(win, score)
-  if win == 'Player'
+  if win == "Player"
     score[:plyr_score] += 1
-  elsif win == 'Computer'
+  elsif win == "Computer"
     score[:comp_score] += 1
   end
 end
@@ -202,12 +192,12 @@ def play_again?
   choice = ''
   loop do
     prompt("Would you like to play again? (Y or N)")
-    choice = gets.chomp.upcase
+    choice = gets.chomp.downcase
 
-    break if ['Y', 'N', 'YES', 'NO'].include?(choice)
+    break if ['y', 'n', 'yes', 'no'].include?(choice)
     prompt("Invalid input. Try again.")
   end
-  choice.start_with?('Y')
+  choice.start_with?('y')
 end
 
 # MAIN GAME LOOP
@@ -216,7 +206,6 @@ welcome_message
 loop do
   starting_player = choose_starter
   score = initialize_score
-
   loop do
     board = initialize_board
     current_player = starting_player
@@ -226,8 +215,8 @@ loop do
       display_scoreboard(score)
       place_piece_on_board(board, current_player)
       display_board(board)
-      current_player = next_player(current_player)
       break if someone_won?(board) || board_full?(board)
+      current_player = next_player(current_player)
     end
 
     update_score(winner(board), score)
