@@ -65,7 +65,7 @@ def display_board(brd)
 end
 # rubocop:enable Metrics/AbcSize
 
-def initialize_board
+def initialize_board # {1=>" ", 2=>" ", 3=>" ", 4=>" ", 5=>" ", 6=>" ", 7=>" ", 8=>" ", 9=>" "}
   new_board = {}
 
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
@@ -205,9 +205,9 @@ welcome_message
 
 loop do
   starting_player = choose_starter
-  score = initialize_score
+  score = initialize_score # { plyr_score: 0, comp_score: 0 }
   loop do
-    board = initialize_board
+    board = initialize_board # {1=>" ", 2=>" ", 3=>" ", 4=>" ", 5=>" ", 6=>" ", 7=>" ", 8=>" ", 9=>" "}
     current_player = starting_player
 
     loop do
