@@ -1,12 +1,17 @@
 # CONSTANTS
 SUITS = %w(hearts diamonds clubs spades)
 VALUES = ('2'..'10').to_a + %w(jack queen king ace)
+GOAL_WINS = 3
 BLACKJACK = 21
 DEALER_MIN = 17
 
 # METHODS
 def prompt(msg)
   puts "=> #{msg}"
+end
+
+def display_divider
+  puts "----------------------------------------------------------------------"
 end
 
 def twenty_one_overview
@@ -41,12 +46,13 @@ end
 def display_game_intro
   puts ""
   prompt("Welcome to 21 AKA Blackjack!")
-  puts "----------------------------------------------------------------------"
+  display_divider
   twenty_one_overview
-  puts "----------------------------------------------------------------------"
+  display_divider
   twenty_one_gameplay
-  puts "----------------------------------------------------------------------"
-  sleep(4)
+  display_divider
+  prompt("Press any key to begin game.")
+  gets.chomp
   system 'clear'
 end
 
@@ -88,10 +94,14 @@ def initial_deal(deck, plyr_hand, deal_hand)
 end
 
 def display_initial_deal(deck, plyr_hand, deal_hand)
+  sleep(3)
+  system 'clear'
   initial_deal(deck, plyr_hand, deal_hand)
-  prompt("Dealer hand: #{deal_hand[0][:value]} of #{deal_hand[0][:suit]}")
-  prompt("             unknown card")
-  puts "----------------------------------------------------------------"
+  display_dealer_initial_hand(deal_hand)
+  display_player_initial_hand(plyr_hand)
+end
+
+def display_player_initial_hand(plyr_hand)
   prompt("You have...")
   plyr_hand.each do |hand|
     puts "#{hand[:value]} of #{hand[:suit]} "
@@ -105,7 +115,15 @@ end
 def display_dealer_initial_hand(deal_hand)
   prompt("Dealer hand: #{deal_hand[0][:value]} of #{deal_hand[0][:suit]}")
   prompt("             unknown card")
-  puts "----------------------------------------------------------------"
+  display_divider
+end
+
+def display_have_blackjack
+  prompt("You have 21...wait for dealer.")
+end
+
+def player_has_blackjack?(plyr_hand)
+  total(plyr_hand) == BLACKJACK
 end
 
 def hit_or_stay?
@@ -113,7 +131,7 @@ def hit_or_stay?
 
   loop do
     prompt("Hit or stay? Enter 'h' for hit, 's' for stay.")
-    choice = gets.chomp
+    choice = gets.chomp.downcase
     break if %w(h hit s stay).include?(choice)
     prompt("Invalid input, try again")
   end
@@ -127,7 +145,7 @@ def player_hit(plyr_hand, deal_hand, deck)
   hit!(plyr_hand, deck)
   display_dealer_initial_hand(deal_hand)
   display_updated_plyr_hand(plyr_hand)
-  puts "----------------------------------------------------------------"
+  display_divider
 end
 
 def hit!(hand, deck)
@@ -144,6 +162,14 @@ def bust?(hand)
   total(hand) > BLACKJACK
 end
 
+def display_bust(plyr_hand, deal_hand)
+  if bust?(plyr_hand)
+    prompt("You bust! Dealer won!")
+  elsif  total(deal_hand) > BLACKJACK
+    prompt("Dealer bust!")
+  end
+end
+
 def nobody_busts(plyr_hand, deal_hand)
   (!bust?(plyr_hand) && !bust?(deal_hand))
 end
@@ -157,7 +183,7 @@ end
 def display_updated_deal_hand(deal_hand)
   deal_hand.each { |hand| prompt("#{hand[:value]} of #{hand[:suit]} ") }
   prompt("Total: #{total(deal_hand)}")
-  puts "----------------------------------------------------------------"
+  display_divider
 end
 
 def player_turn(plyr_hand, deal_hand, deck)
@@ -187,7 +213,7 @@ def dealer_turn(deal_hand, plyr_hand, deck)
   prompt("Your total: #{total(plyr_hand)}")
   prompt("Dealer total: #{total(deal_hand)}")
   puts ""
-  prompt("Dealer bust!") if total(deal_hand) > BLACKJACK
+  display_bust(plyr_hand, deal_hand)
 end
 
 def calculate_winner(plyr_hand, deal_hand)
@@ -210,6 +236,10 @@ def display_winner(plyr_hand, deal_hand)
   end
 end
 
+def grand_winner?(score)
+  score[:plyr_score] == GOAL_WINS || score[:deal_score] == GOAL_WINS
+end
+
 def display_score(score)
   prompt("Your score: #{score[:plyr_score]}")
   prompt("Dealer score: #{score[:deal_score]}")
@@ -223,6 +253,8 @@ def update_score!(score, plyr_hand, deal_hand)
   elsif bust?(plyr_hand)
     score[:deal_score] += 1
   end
+  sleep(3)
+  system 'clear'
 end
 
 def play_again?
@@ -237,6 +269,10 @@ def play_again?
   choice.start_with?('y')
 end
 
+def display_goodbye
+  prompt("Thank you for playing 21!")
+end
+
 # GAME LOOP
 display_game_intro
 
@@ -247,18 +283,16 @@ loop do
     plyr_hand = []
     deal_hand = []
 
-    puts "----------------------------------------------------------------"
+    display_divider
     display_score(score)
-    puts "----------------------------------------------------------------"
-    sleep(3)
-    system 'clear'
+    display_divider
 
     display_initial_deal(deck, plyr_hand, deal_hand)
 
-    unless total(plyr_hand) == BLACKJACK
+    unless player_has_blackjack?(plyr_hand)
       player_turn(plyr_hand, deal_hand, deck)
-      prompt("You have 21...wait for dealer.") if total(plyr_hand) == BLACKJACK
-      prompt("You bust! Dealer won!") if bust?(plyr_hand)
+      display_have_blackjack if player_has_blackjack?(plyr_hand)
+      display_bust(plyr_hand, deal_hand)
     end
 
     unless !!bust?(plyr_hand)
@@ -267,16 +301,12 @@ loop do
 
     display_winner(plyr_hand, deal_hand)
     update_score!(score, plyr_hand, deal_hand)
-    sleep(3)
-    system 'clear'
 
-    break if score[:plyr_score] == 3 || score[:deal_score] == 3
+    break if grand_winner?(score)
   end
-  system 'clear'
-  puts "----------------------------------------------------------------"
+  display_divider
   display_score(score)
-  puts "----------------------------------------------------------------"
+  display_divider
   break unless play_again?
-  system 'clear'
 end
-prompt("Thank you for playing 21!")
+display_goodbye

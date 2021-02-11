@@ -226,7 +226,7 @@ loop do
     else
       prompt("It's a tie!")
     end
-
+    sleep(2)
     starting_player = next_player(starting_player)
 
     break if score[:plyr_score] == 3 || score[:comp_score] == 3
