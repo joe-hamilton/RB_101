@@ -37,6 +37,13 @@ Algorithm / Pseudocode:
 Code
 =end
 
+# def oddities(array)
+#   even_indices = array.select do |element|
+#     array.index(element).even?
+#   end
+#   even_indices
+# end
+
 def oddities(array)
   even_indices = []
   counter = 0

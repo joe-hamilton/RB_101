@@ -47,22 +47,36 @@ puts stringy(7) == '1010101'
 
 # (Code)
 
-def stringy(integer)
-  binary_num = ''
+def stringy(size)
+  binary_string = ""
   counter = 0
 
-  loop do
-    break if counter == integer
-
+  size.times do |index|
     if counter.even?
-      binary_num << '1'
+      binary_string << "1"
     else
-      binary_num << '0'
+      binary_string << "0"
     end
     counter += 1
   end
-  binary_num
+  binary_string
 end
+
+# Further Exploration
+# def stringy(size, binary = 1)
+#   numbers = []
+
+#   size.times do |index|
+#     if binary == 0
+#       number = index.even? ? 0 : 1
+#       numbers << number
+#     else
+#       number = index.even? ? 1 : 0
+#       numbers << number
+#     end
+#   end
+#   numbers.join
+# end
 
 puts stringy(6) == '101010'
 puts stringy(9) == '101010101'

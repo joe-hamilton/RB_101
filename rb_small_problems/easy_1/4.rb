@@ -42,19 +42,42 @@ motorcycle => 2
 =end
 
 vehicles = [
-  'car', 'car', 'truck', 'car', 'SUV', 'truck',
+  'car', 'car', 'truck', 'car', 'SUV', 'suv', 'truck',
   'motorcycle', 'motorcycle', 'car', 'truck'
 ]
 
-def count_occurrences(array)
-  occurrences = {}
+# Solution 1
+# def count_occurrences(auto)
+#   auto.uniq.each do |name|
+#     puts "#{name} => #{auto.count(name)}"
+#   end
+# end
 
-  array.uniq.each do |element|
-    occurrences[element] = array.count(element)
+# Solution 2
+# def count_occurrences(auto)
+#   occurrences = {}
+
+#   auto.uniq.each do |name|
+#     occurrences[name] = auto.count(name)
+#   end
+
+#   occurrences.each do |key, value|
+#     puts "#{key} => #{value}"
+#   end
+# end
+
+# Further Exploration
+def count_occurrences(auto)
+  occurrences = {}
+  arr = auto.map(&:downcase)
+
+  arr.uniq.each do |name|
+    occurrences[name] = arr.count(name)
   end
+
   occurrences.each do |key, value|
     puts "#{key} => #{value}"
   end
 end
 
-count_occurrences(vehicles)
+ count_occurrences(vehicles)

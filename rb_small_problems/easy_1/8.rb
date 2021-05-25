@@ -40,21 +40,16 @@ puts average([9, 47, 23, 95, 16, 52]) == 40
 
 # (Code)
 
-def average(array)
-  sum = 0
-
-  array.each {|element| sum += element}
-  sum / array.count
+def average(arr)
+  averages = (arr.reduce(:+)) / (arr.size)
 end
 
-# Simpler solution
-=begin
-def average(array)
-  sum = array.reduce(:+)
-  sum / array.size
-end
-=end
+# Further Exploration
+# def average(arr)
+#  averages = (arr.reduce(:+)) / (arr.size)
+#  averages.to_f
+# end
 
-p average([1, 6]) == 3 # integer division: (1 + 6) / 2 -> 3
-p average([1, 5, 87, 45, 8, 8]) == 25
-p average([9, 47, 23, 95, 16, 52]) == 40
+p average([1, 6]) #== 3 # integer division: (1 + 6) / 2 -> 3
+p average([1, 5, 87, 45, 8, 8]) #== 25
+p average([9, 47, 23, 95, 16, 52]) #== 40
