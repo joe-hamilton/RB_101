@@ -12,29 +12,56 @@ You may not use any of the standard conversion methods available in Ruby, such a
 You may, however, use the string_to_integer method from the previous lesson.
 =end
 
+# DIGITS = {
+#   '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4,
+#   '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9
+# }
+
+# def string_to_integer(string)
+#   digits = string.chars.map {|char| DIGITS[char]}
+
+#   value = 0
+#   digits.each {|digit| value = 10 * value + digit}
+#   value
+# end
+
+# def string_to_signed_integer(string)
+#   if string[0] == "-"
+#     puts -string_to_integer(string[1..-1])
+#   elsif string[0] == "+"
+#     puts string_to_integer(string[1..-1])
+#   else
+#     puts string_to_integer(string)
+#   end
+# end
+
+# Alternate Solution
 DIGITS = {
   '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4,
-  '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9
-}
+  '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9 }
 
-def string_to_integer(string)
-  digits = string.chars.map {|char| DIGITS[char]}
+def string_to_integer(num_string)
+  total = 0
 
-  value = 0
-  digits.each {|digit| value = 10 * value + digit}
-  value
+  num_array = num_string.chars.map do |element|
+    DIGITS[element]
+  end
+  num_array.each do |number|
+    total = number + (10 * total)
+  end
+  total
 end
 
-def string_to_signed_integer(string)
-  if string[0] == "-"
-    puts -string_to_integer(string[1..-1])
-  elsif string[0] == "+"
-    puts string_to_integer(string[1..-1])
+def string_to_signed_integer(num_string)
+  if num_string.start_with?('-')
+    -string_to_integer(num_string[1..-1])
+  elsif num_string.start_with?('+')
+    string_to_integer(num_string[1..-1])
   else
-    puts string_to_integer(string)
+    string_to_integer(num_string)
   end
 end
 
-string_to_signed_integer('4321') #== 4321
-string_to_signed_integer('-570') #== -570
-string_to_signed_integer('+100') #== 100
+p string_to_signed_integer('4321') #== 4321
+p string_to_signed_integer('-570') #== -570
+p string_to_signed_integer('+100') #== 100

@@ -8,6 +8,7 @@ Note that we are looking for a boolean result instead of a truthy/falsy value as
 =end
 
 =begin
+#Option 1
 def xor?(value1, value2)
   return true if value1 && !value2
   return true if value2 && !value1
@@ -15,9 +16,19 @@ def xor?(value1, value2)
 end
 =end
 
+#Option 2
+=begin
 def xor?(arg1, arg2)
   arg1 == arg2 ? false : true
 end
+=end
+
+#Option 3
+=begin
+def xor?(num1, num2)
+  !!((num1 && !num2) || (!num1 && num2))
+end
+=end
 
 #Examples / Test Cases
 p xor?(5.even?, 4.even?) == true
