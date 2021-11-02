@@ -58,5 +58,12 @@ end
 #    end
 # end
 
+# Alternate Solution
+
+# def triangle(stars)
+#   1.upto(stars) { |num| puts (' ' * (stars - num)) + ('*' * num)}
+# end
+
+
 triangle(5)
 triangle(9)

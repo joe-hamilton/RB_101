@@ -54,6 +54,14 @@ vehicles = [
 # end
 
 # Solution 2
+# def count_occurrences(auto_array)
+#   new_hash = auto_array.each_with_object({}) do |auto, h|
+#     h[auto] = auto_array.count(auto)
+#   end
+#   new_hash.each { |k, v| puts "#{k} => #{v}"}
+# end
+
+# Solution 3
 # def count_occurrences(auto)
 #   occurrences = {}
 

@@ -6,6 +6,11 @@ def find_dup(array)
   end
 end
 
+# Alternate Solution
+# def find_dup(int_arr)
+#   int_arr.select { |num| int_arr.count(num) > 1}.uniq.sum
+# end
+
 p find_dup([1, 5, 3, 1]) == 1
 p find_dup([18,  9, 36, 96, 31, 19, 54, 75, 42, 15,
          38, 25, 97, 92, 46, 69, 91, 59, 53, 27,

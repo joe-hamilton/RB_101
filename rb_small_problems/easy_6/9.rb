@@ -41,23 +41,16 @@
 (Code)
 =end
 
-
-def include?(array, search_value)
-  array.each { |element| return true if element == search_value}
-  return false
+def include?(arr, search_value)
+  new_arr = arr.select { |element| element == search_value}
+  !new_arr.empty?
 end
 
 # Alternate solution
 
 # def include?(array, search_value)
-#    duplicate = array.select { |element| element == search_value}
-#    if duplicate.empty?
-#       return false
-#    elsif duplicate.first == search_value
-#       return true
-#    else
-#       return false
-#    end
+#   array.each { |element| return true if element == search_value}
+#   return false
 # end
 
 

@@ -3,24 +3,26 @@
 =begin
 (Understand the Problem)
   Problem:
-    Create a method that takes 2 arguments, an array and a hash. The array will contain 2 or more elements that, when combined with adjoining spaces,
-    will produce a person's name. The hash will contain two keys, :title and :occupation, and the appropriate values. Your method should return a
-    greeting that uses the person's full name, and mentions the person's title and occupation.
+    Create a method that takes 2 arguments, an array and a hash
+      - The array will contain 2 or more elements that, when combined with adjoining spaces, will produce a person's name
+      - The hash will contain two keys, :title and :occupation, and the appropriate values
+      - Your method should return a greeting that uses the person's full name, and mentions the person's title and occupation
 
-  Inputs: One Array and one Hash
-  Outputs: A String
+  Inputs: An Array and a Hash
+  Outputs: String (greeting that uses the person's full name, and mentions the person's title and occupation)
   Questions:
     1.
   Explicit Rules:
-    1. The input Array will produce a person's full name when combined with adjoining spaces
+    1. The elements in the input Array should be combined with adjoining spaces when added to output String
     2.
   Implicit Rules:
     1.
     2.
   Mental Model:
-    - Write a method that takes two arguments, an Array and a Hash
-    - The Array will contain a person's name when combined with adjoining spaces, and the keys of the Hash is the person's title and occupation
-    - The method should return a greeting that uses the person's full name, along with their title and occupation
+    - Create a method that takes two arguments, an Array and Hash
+    - The Array will be a person's name when all elements are combined using adjoining spaces
+    - The Hash will contain two keys, :title and :occupation
+    - Your method should return a greeting that uses the person's full name, and mentions their title and occupation
 
 (Examples/Test Cases)
   greetings(['John', 'Q', 'Doe'], { title: 'Master', occupation: 'Plumber' })
@@ -30,18 +32,22 @@
     String
 
 (Algorithm)
-    - Define a method with two parameters: a 'full_name' array and a 'credentials' hash
-      - Join the 'full_name' array, creating a name String, and assign it to local variable 'name'
-      - Create a sentence with the 'name' inserted and values of the 'credentials' keys inserted
+    - Define method `greetings` with two parameters `name` and `description`
+      - Initialize local variable `full_name` to the value of combining the elements in `name` and separating them by spaces
+      - Initialize local variable `title` to the value of the corresponding value of :title in `description`
+      - Initialize local variable `occupation` to the value of the corresponding value of :occupation in `description`
+      - Create a sentence that adds in `full_name` and the values of `description`
 
 (Code)
 =end
 
-def greetings(full_name, credentials)
-  name = full_name.join(' ')
-  puts "=> Hello, #{name}! Nice to have a " +
-  "#{credentials[:title]} #{credentials[:occupation]} around."
+def greetings(name, description)
+  full_name = name.join(' ')
+  title = description[:title]
+  occupation = description[:occupation]
+
+  "=> Hello, #{full_name}! Nice to have a #{title} #{occupation} around."
 end
 
-greetings(['John', 'Q', 'Doe'], { title: 'Master', occupation: 'Plumber' })
+p greetings(['John', 'Q', 'Doe'], { title: 'Master', occupation: 'Plumber' })
 #=> Hello, John Q Doe! Nice to have a Master Plumber around.
