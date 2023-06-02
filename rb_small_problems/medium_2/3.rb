@@ -42,6 +42,37 @@
 (Code)
 =end
 
+# Alternate Solution
+=begin
+UPPERCASE = ('A'..'Z').to_a
+LOWERCASE = ('a'..'z').to_a
+
+def return_character_hsh(str)
+  character_hsh = { lowercase: 0, uppercase: 0, neither: 0}
+
+  str.each_char do |char|
+    if LOWERCASE.include?(char)
+      character_hsh[:lowercase] += 1
+    elsif UPPERCASE.include?(char)
+      character_hsh[:uppercase] += 1
+    else
+      character_hsh[:neither] += 1
+    end
+  end
+  character_hsh
+end
+=end
+
+def letter_percentages(str)
+  character_count = str.length
+   character_hsh = return_character_hsh(str) 
+
+   character_hsh.each do |key, value|
+    character_hsh[key] = (value.to_f/character_count) * 100
+   end
+   character_hsh
+end
+
 def letter_percentages(str)
   case_count = { lowercase: 0, uppercase: 0, neither: 0}
 

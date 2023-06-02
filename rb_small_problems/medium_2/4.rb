@@ -57,6 +57,28 @@ def balanced?(str)
   false
 end
 
+# Alternate Solution
+=begin
+def start_with_parentheses?(str)
+  parentheses_str = str.delete('^()')
+  parentheses_str.start_with?('(') && parentheses_str.end_with?(')')
+end
+
+def balanced?(str)
+  left = 0
+  right = 0
+  parentheses_str = str.delete('^()')
+
+  return true if parentheses_str.empty?
+  parentheses_str.each_char do |char|
+    left += 1 if char == '(' && start_with_parentheses?(str)
+    right += 1 if char == ')' && start_with_parentheses?(str)
+  end
+  return false if left == 0
+  left == right
+end
+=end
+
 p balanced?('What (is) this?') == true
 p balanced?('What is) this?') == false
 p balanced?('What (is this?') == false

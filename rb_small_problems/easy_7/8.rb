@@ -41,17 +41,22 @@
 (Code)
 =end
 
-def multiply_list(array1, array2)
-  index = 0
-  product_array = []
-
-  loop do
-    product_array << array1[index] * array2[index]
-    index += 1
-    break if index == array1.length
-  end
-  product_array
+def multiply_list(num_arr1, num_arr2)
+  num_arr1.zip(num_arr2).map {|arr| arr.reduce(:*)}
 end
+
+# Alternate Solution
+# def multiply_list(array1, array2)
+#   index = 0
+#   product_array = []
+
+#   loop do
+#     product_array << array1[index] * array2[index]
+#     index += 1
+#     break if index == array1.length
+#   end
+#   product_array
+# end
 
 # Alternate Solution
 # def multiply_list(array1, array2)

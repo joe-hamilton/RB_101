@@ -36,31 +36,45 @@
 (Code)
 =end
 
-def multiply_all_pairs(array1, array2)
-  array3 = []
-  index = 0
-  smallest_array = array1.size > array2.size ? array2[index] : array1[index]
+def multiply_all_pairs(num_arr1, num_arr2)
+  product_arr = []
 
-  if array1[0] == smallest_array
-    loop do
-      array2.each { |num| array3 << num * array1[index] }
-      index += 1
-      break if index == array1.size
-    end
-  else
-    loop do
-      array1.each { |num| array3 << num * array2[index] }
-      index += 1
-      break if index == array2.size
+  num_arr1.each do |x|
+    num_arr2.each do |y|
+      product_arr << x * y
     end
   end
-  array3.sort
+  product_arr.sort
 end
 
 # Alternate Solution
 # def multiply_all_pairs(array1, array2)
 #   array1.product(array2).map { |sub_array| sub_array.reduce(:*)}.sort
 # end
+
+# Alternate Solution
+# def multiply_all_pairs(array1, array2)
+#   array3 = []
+#   index = 0
+#   smallest_array = array1.size > array2.size ? array2[index] : array1[index]
+
+#   if array1[0] == smallest_array
+#     loop do
+#       array2.each { |num| array3 << num * array1[index] }
+#       index += 1
+#       break if index == array1.size
+#     end
+#   else
+#     loop do
+#       array1.each { |num| array3 << num * array2[index] }
+#       index += 1
+#       break if index == array2.size
+#     end
+#   end
+#   array3.sort
+# end
+
+
 
 p multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
 p multiply_all_pairs([4, 3, 1, 2], [2, 4])

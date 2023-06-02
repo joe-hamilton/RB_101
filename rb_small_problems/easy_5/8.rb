@@ -56,6 +56,12 @@ def alphabetic_number_sort(num_array)
 end
 
 # Alternate Solution
+
+# def alphabetic_number_sort(numbers)
+#   numbers.sort { |a, b| NUMERIC_WORDS[a] <=> NUMERIC_WORDS[b]}
+# end
+
+# Alternate Solution
 # def alphabetic_number_sort(num_array)
 #   num_words = [
 #     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",

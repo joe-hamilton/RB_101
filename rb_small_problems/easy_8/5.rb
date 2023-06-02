@@ -7,42 +7,32 @@ The return value should be arranged in the same sequence as the substrings appea
 Duplicate palindromes should be included multiple times.
 =end
 
-def leading_substrings(string)
-  substrings = []
-  letters = string.chars
-
-  1.upto(string.size) do |sliced_length|
-    substrings << letters.slice(0, sliced_length)
+def leading_substrings(str)
+  substr_arr = []
+  
+  (0...str.size).each do |index|
+    substr_arr << str[0..index]
   end
-
-  substrings.map do |sub_array|
-    sub_array.join
-  end
+  substr_arr
 end
 
-def substrings(string)
-  all_substrings = []
-  starting_index = 0
-  loop do
-    all_substrings << leading_substrings(string[starting_index..-1])
-    starting_index += 1
-    break if starting_index == string.size
+def substrings(str)
+  new_arr = []
+
+  (0...str.size).each do |starting_index|
+    new_str = str[starting_index..-1]
+    new_arr.concat(leading_substrings(new_str))
   end
-  all_substrings.flatten
+  new_arr
 end
 
-def palindrome?(string)
-  string == string.reverse && string.size > 1
+def palindrome?(str)
+  str == str.reverse && str.size > 1
 end
 
-def palindromes(string)
-  all_substrings = substrings(string)
-  palindromic_array = []
-
-  all_substrings.each do |sub_string|
-    palindromic_array << sub_string if palindrome?(sub_string)
-  end
-  palindromic_array
+def palindromes(str)
+  new_arr = substrings(str)
+  palindrome_arr = new_arr.select { |sub_str| palindrome?(sub_str)}
 end
 
 p palindromes('abcd') == []

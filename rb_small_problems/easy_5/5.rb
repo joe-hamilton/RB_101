@@ -44,17 +44,23 @@ cleanup("---what's my +*& line?") == ' what s my line '
 
 ALPHABET = ('a'..'z').to_a
 
-def cleanup(string)
-  clean_chars = []
+# def cleanup(string)
+#   clean_chars = []
 
-  string.chars.each do |element|
-    if ALPHABET.include?(element)
-      clean_chars << element
-    else
-      clean_chars << ' ' unless clean_chars.last == ' '
-    end
-  end
-  clean_chars.join(' ')
+#   string.chars.each do |element|
+#     if ALPHABET.include?(element)
+#       clean_chars << element
+#     else
+#       clean_chars << ' ' unless clean_chars.last == ' '
+#     end
+#   end
+#   clean_chars.join(' ')
+# end
+
+# Alternate Solution
+
+def cleanup(str)
+  str.gsub!(/[^a-z]/, ' ').squeeze(' ')
 end
 
 

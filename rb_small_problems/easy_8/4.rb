@@ -1,28 +1,36 @@
 # All Substrings
 
-def leading_substrings(string)
-  substrings = []
-  letters = string.chars
-
-  1.upto(string.size) do |sliced_length|
-    substrings << letters.slice(0, sliced_length)
+def leading_substrings(str)
+  substr_arr = []
+  
+  (0...str.size).each do |index|
+    substr_arr << str[0..index]
   end
-
-  substrings.map do |sub_array|
-    sub_array.join
-  end
+  substr_arr
 end
 
-def substrings(string)
-  all_substrings = []
+def substrings(str)
   starting_index = 0
-  loop do
-    all_substrings << leading_substrings(string[starting_index..-1])
+  new_arr = []
+
+  until starting_index >= str.size
+    new_str = str.slice(starting_index, str.size)
+    new_arr << leading_substrings(new_str)
     starting_index += 1
-    break if starting_index == string.size
   end
-  all_substrings.flatten
+  new_arr.flatten
 end
+
+# Alternate Solution
+# def substrings(str)
+#   new_arr = []
+
+#   (0...str.size).each do |starting_index|
+#     new_str = str[starting_index..-1]
+#     new_arr.concat(leading_substrings(new_str))
+#   end
+#   new_arr
+# end
 
 p substrings('abcde') == [
   'a', 'ab', 'abc', 'abcd', 'abcde',

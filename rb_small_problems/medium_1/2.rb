@@ -63,6 +63,13 @@ end
 #   (number_array << digit_to_rotate).join.to_i
 # end
 
+# Alternate Solution
+# def rotate_rightmost_digits(int, n)
+#   str_int = int.to_s 
+#   swapped_element = str_int.slice!(-n)
+#   (str_int << swapped_element).to_i
+# end
+
 p rotate_rightmost_digits(735291, 1) == 735291
 p rotate_rightmost_digits(735291, 2) == 735219
 p rotate_rightmost_digits(735291, 3) == 735912

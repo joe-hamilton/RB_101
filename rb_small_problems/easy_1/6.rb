@@ -43,17 +43,24 @@ puts reverse_words('Launch School')         # => hcnuaL loohcS
 
 # (Code)
 
-def reverse_words(string)
-  new_array = []
+# def reverse_words(string)
+#   new_array = []
 
-  string.split.each do |element|
-    if element.size >= 5
-      new_array << element.reverse
-    else
-      new_array << element
-    end
+#   string.split.each do |element|
+#     if element.size >= 5
+#       new_array << element.reverse
+#     else
+#       new_array << element
+#     end
+#   end
+#   new_array.join(' ')
+# end
+
+def reverse_words(string)
+  string.split.map do |ele|
+    ele = ele.reverse if ele.size >= 5
+    ele
   end
-  new_array.join(' ')
 end
 
 p reverse_words('Professional')          # => lanoisseforP
